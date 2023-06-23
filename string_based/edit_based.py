@@ -7,14 +7,15 @@ class EditBased(StringBased):
         super().__init__(name)
         if similarity_measures is None:
             similarity_measures = [
-                "ham",
-                "mli",
-                "lev",
-                "dam",
-                "jar",
-                "str",
-                "nee",
-                "smi",
+                "hamming",
+                "mlipns",
+                "levenshtein",
+                "damerau_levenshtein",
+                "jaro_winkler",
+                "strcmp95",
+                "needleman_wunsch",
+                "gotoh",
+                "smith_waterman",
             ]
         self.similarity_measures = similarity_measures
 
@@ -34,14 +35,15 @@ class EditBased(StringBased):
 
     def calculate_similarity(self, word1, word2, similarity_measure):
         similarity_methods = {
-            "ham": self.calculate_hamming_similarity,
-            "mli": self.calculate_mlipns_similarity,
-            "lev": self.calculate_levenshtein_similarity,
-            "dam": self.calculate_damerau_levenshtein_similarity,
-            "jar": self.calculate_jaro_winkler_similarity,
-            "str": self.calculate_strcmp95_similarity,
-            "nee": self.calculate_needleman_wunsch_similarity,
-            "smi": self.calculate_smith_waterman_similarity,
+            "hamming": self.calculate_hamming_similarity,
+            "mlipns": self.calculate_mlipns_similarity,
+            "levenshtein": self.calculate_levenshtein_similarity,
+            "damerau_levenshtein": self.calculate_damerau_levenshtein_similarity,
+            "jaro_winkler": self.calculate_jaro_winkler_similarity,
+            "strcmp95": self.calculate_strcmp95_similarity,
+            "needleman_wunsch": self.calculate_needleman_wunsch_similarity,
+            "gotoh": self.calculate_gotoh_similarity,
+            "smith_waterman": self.calculate_smith_waterman_similarity,
         }
 
         if similarity_measure in similarity_methods:
@@ -70,6 +72,9 @@ class EditBased(StringBased):
 
     def calculate_needleman_wunsch_similarity(self, word1, word2):
         return textdistance.needleman_wunsch.normalized_similarity(word1, word2)
+
+    def calculate_gotoh_similarity(self, word1, word2):
+        return textdistance.gotoh.normalized_similarity(word1, word2)
 
     def calculate_smith_waterman_similarity(self, word1, word2):
         return textdistance.smith_waterman.normalized_similarity(word1, word2)
