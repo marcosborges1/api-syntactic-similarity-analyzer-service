@@ -18,11 +18,6 @@ class EditBased(StringBased):
             ]
         self.similarity_measures = similarity_measures
 
-    # def to_string(self, results):
-    #     columns = ["word1", "word2"] + self.similarity_measures
-    #     df = pd.DataFrame(results, columns=columns)
-    #     print(df.to_string(index=False))
-
     def analyze(self, word_list):
         results = []
         for words in word_list:
