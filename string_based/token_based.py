@@ -11,7 +11,7 @@ class TokenBased(StringBased):
                 "sorensen_dice",
                 "tversky",
                 "overlap",
-                "cossine",
+                "cosine",
                 "monge_elkan",
                 "bag",
             ]
@@ -37,7 +37,7 @@ class TokenBased(StringBased):
             "sorensen_dice": self.calculate_sorensen_dice_similarity,
             "tversky": self.calculate_tversky_similarity,
             "overlap": self.calculate_overlap_similarity,
-            "cossine": self.calculate_cosine_similarity,
+            "cosine": self.calculate_cosine_similarity,
             "monge_elkan": self.calculate_monge_elkan_similarity,
             "bag": self.calculate_bag_similarity,
         }
