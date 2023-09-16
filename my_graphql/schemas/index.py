@@ -2,9 +2,9 @@
 
 type_defs = """
 type Query {
-  getDummyData(input_path: [String!]!): [DummyData!]!
+  getSyntacticSimilarities(path: String!, ranking:String!, threshold: Float!, k: Int!): [SyntacticSimilarities]
 }
-type DummyData {
+type SyntacticSimilarities {
   origin_api: String,
   target_api: String,
   oa_out_attr: String,
@@ -21,5 +21,12 @@ type DummyData {
   jaccard: Float,
   sorensen: Float,
   ratcliff_obershelp: Float, 
+  major_rank: Float, 
+  gini: Float, 
+  avg_rank: Float, 
+  prediction: Float
 }
 """
+
+
+
