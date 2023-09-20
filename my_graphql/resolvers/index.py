@@ -13,6 +13,8 @@ from mlxtend.plotting import plot_confusion_matrix
 import seaborn as sns
 import matplotlib.pyplot as plt
 
+import httpx
+
 
 def default_columns(ranking=""):
     return [
@@ -396,7 +398,7 @@ def resolve_syntactic_similarities(_, info, path, ranking, threshold, k):
         lambda dt: prediction(dt[ranking], threshold), axis=1
     )
 
-    dataset_by_rank = dataset_by_rank.drop(columns=['indice'])
+    dataset_by_rank = dataset_by_rank.drop(columns=['index'])
 
     # Convert the dataset to a JSON array
     result = dataset_by_rank.to_json(orient="records")
@@ -407,3 +409,49 @@ def resolve_syntactic_similarities(_, info, path, ranking, threshold, k):
 
 # Usage example:
 # result = resolve_syntactic_similarities(None,None, "http://localhost:4002/data/path_to_output.csv", "avg_rank", 0.4, 10)
+
+async def resolve_api_intergration_points(_, info, apiList, ranking, threshold, k):
+    
+    ase_service_endpoint = "http://localhost:4001/"
+    adg_service_endpoint = "http://localhost:4002/"
+
+    async with httpx.AsyncClient() as client:
+        # Call the first microservice
+        response1 = await client.post(f"{ase_service_endpoint}graphql", json={
+            "query": """
+            query($apiList: [inputAPI]) {
+                getExtractedApiList(apiList: $apiList) {
+                    generatedExtractedFile
+                }
+            }
+            """,
+            "variables": {
+                "apiList": apiList
+            }
+        })
+        
+        generatedExtractedFile = response1.json()["data"]["getExtractedApiList"]["generatedExtractedFile"]
+
+        # Call the second microservice
+        response2 = await client.post(f"{adg_service_endpoint}", json={
+            "query": """
+            query($generatedExtractedFile: String!) {
+                generateDataset(generatedExtractedFile: $generatedExtractedFile) {
+                    generatedDatasetFile
+                }
+            }
+            """,
+            "variables": {
+                "generatedExtractedFile": generatedExtractedFile
+            }
+        })
+        generatedDatasetFile = response2.json()["data"]["generateDataset"]["generatedDatasetFile"]
+
+        return {
+
+            "generatedExtractedFile": f"Available at: {generatedExtractedFile}" ,
+            "generatedDatasetFile": f"Available at: {generatedDatasetFile}", 
+            "syntactic":resolve_syntactic_similarities(_, info, generatedDatasetFile, ranking, threshold, k)
+
+        }
+
