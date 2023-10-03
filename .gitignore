@@ -5,3 +5,4 @@ __pycache__/
 notebooks/
 .env
 app.py
+.DS_Store
