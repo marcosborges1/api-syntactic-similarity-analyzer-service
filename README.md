@@ -80,12 +80,12 @@ python server.py
 Access the ASSA from the GraphQL endpoint:
 
 ```bash
-http://localhost:4002/graphql
+http://localhost:4003/graphql
 ```
 
 **Note**:
 
-- The default PORT is _4002_, but can be change for your convenience.
+- The default PORT is _4003_, but can be change for your convenience.
 - This project heavily relies on GraphQL, a powerful query language for APIs, and a server-side runtime for executing those queries with your existing data. If you're unfamiliar with GraphQL or wish to dive deeper, you can [learn more about GraphQL here](https://graphql.org/).
 
 ## References
