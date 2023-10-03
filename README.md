@@ -4,7 +4,7 @@
 
 ASSA is a pivotal component of the `Agape ` approach that deeply analyzes datasets from [API Dataset Generator (ASSA)](https://github.com/marcosborges1/api-dataset-generator-service). ASSA stands as the centerpiece of the Agape approach, meticulously analyzing datasets produced by ADG. It yields a comprehensive spectrum of outputs including similarity metrics, associated rankings, auxiliary calculations, and evaluations, see Figure below.
 
-<img src="/images/assa_dataset.png" height="300"/>
+<img src="/images/assa_dataset.png" height="500"/>
 
 Detailed descriptions of those outputs follow below.
 
